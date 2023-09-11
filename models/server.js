@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import { router as usuariosRouter } from '../routes/usuarios.js';
+import { dbConnection } from '../database/config.js';
 
 
 
@@ -15,11 +16,19 @@ class Server{
         this.app = express()
         this.port = process.env.PORT;
         this.usuariosPath = '/api/usuarios';
+
+        // Conectar a base de datos
+        this.conectarDB();
+
  
         // middlewares
         this.middlewares();
         // Rutas de mi aplicación
         this.routes();
+    }
+
+    async conectarDB() {
+        await dbConnection();
     }
 
     middlewares(){
